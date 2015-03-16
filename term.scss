@@ -2,6 +2,8 @@ $gu: 32px;
 $input_line_height: 2 * $gu;
 $navbar_height: 2 * $gu;
 
+$sidebar_width: 7 * $gu;
+
 @mixin animated() { 
     -webkit-animation-duration: 0.2s; 
     animation-duration: 0.2s; 
@@ -53,6 +55,7 @@ $navbar_height: 2 * $gu;
 html, body{
   width: 100%;
   height: 100%;
+  min-width: 10* $gu;
 }
 
 .shaded {
@@ -76,8 +79,11 @@ a{
 
 #navbar{
   @include abs(0);
+
   bottom: auto;
   height: $navbar_height;
+  left: $sidebar_width;
+
   position:absolute;
 
   font-family: Ubuntu Mono, monospace;
@@ -93,11 +99,26 @@ a{
   z-index:5;
 }
 
+#sidebar{
+  @include abs(0);
+  z-index: 20;
+  right:auto;
+  width: $sidebar_width;
+  font-family: Ubuntu Mono, monospace;
+  padding: $gu/2;
+
+  h2{
+    font-size:1.2em;
+    font-weight: normal;
+    margin-bottom: 0.2em;
+  }
+}
 
 #message-buffer {
   @include abs(0);
   top: $navbar_height;
   bottom: $input_line_height;
+  left: $sidebar_width;
 
   overflow-y: scroll;
   background-color: #F7F7F7;
@@ -155,12 +176,17 @@ a{
   }
 }
 
-
-#input-area {
+#ia-wrapper{
   @include abs(0);
   top: auto;
+  left: $sidebar_width;
   height: 2 * $gu;
-  width: 100%;
+}
+#input-area {
+  position:relative;
+
+  width:100%;
+  height:100%;
 
   background-color: #EEEEEE;
   padding: $gu/2;
