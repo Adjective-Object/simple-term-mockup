@@ -10,7 +10,7 @@ directory_tree = {
         "document": {
           type: "wordfile"
         },
-        "subfolder": {
+        "school": {
           type: "folder",
           children: {}
         }
@@ -76,6 +76,9 @@ function cwdd(c, spl) {
     return c
   } else {
     c = c.children[spl.splice(0,1)]
+    if (c == undefined) {
+      throw UserException("error traversing file tree")
+    }
     return cwdd(c, spl)
   }
 }
@@ -104,36 +107,41 @@ function update_cwd(newpath) {
 
   console.log(joined);
 
+  var nextpath;
   if (joined.length > 0) {
-    path = "~/"+joined.join("/");    
+    nextpath = "~/"+joined.join("/");    
   } else {
-    path = "~"
+    nextpath = "~"
   }
 
 
   temp = null
   try {
     temp = cwdd(directory_tree, joined)
+    path = nextpath;
   } catch(err) {
-    temp = cwd
+    return 0
   }
   cwd = temp
+  return 1
 }
 
 function update_cwd_tree(newpath) {
-  update_cwd(newpath);
-
-  $("#sidebar h2").text(path+"/");
-  $("#navbar b").text(path+"/");
-  $("#sidebar ul").empty()
-  if (cwd.tag != undefined) {
-    $("#navbar span").text(": " + cwd.tag);
-  } else {
-    $("#navbar span").text("");  
+  if (update_cwd(newpath)) {
+    $("#sidebar h2").text(path+"/");
+    $("#navbar b").text(path+"/");
+    $("#sidebar ul").empty()
+    if (cwd.tag != undefined) {
+      $("#navbar span").text(": " + cwd.tag);
+    } else {
+      $("#navbar span").text("");  
+    }
+    for (key in cwd.children) {
+      $("#sidebar ul").append($("<li data-filetype="+cwd.children[key].type+">"+key+"</li>"));
+    }
+    return 1
   }
-  for (key in cwd.children) {
-    $("#sidebar ul").append($("<li data-filetype="+cwd.children[key].type+">"+key+"</li>"));
-  }
+  return 0
 }
 
 update_cwd_tree("");

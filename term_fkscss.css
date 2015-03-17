@@ -38,6 +38,12 @@
 	line-height: 18px;
 	font-family: "FontAwesome";
 }
+
+.message[data-sender='shellbot']:not(*[data-rc="0"]):after,
+.message[data-sender='shellbot']:not(*[data-rc="0"]):before  {
+	color: #FF0000;
+}
+
 .message[data-sender='shellbot']:before {
 	position:relative;
 	left: 0.5em;

@@ -72,7 +72,7 @@ function callCommand(cmd) {
 	//send the actual message
 	if (response != null) {
 		$(msg_buffer.children()[msg_buffer.children().length-1]).attr('data-rc', response.rc)
-		sendMsg(response.sender, response.msg)		
+		sendMsg(response.sender, response.msg, response.rc)		
 	}
 }
 
@@ -92,7 +92,7 @@ function _help (argv) {
 
 function _ls (argv) {
 	return {
-		rc: 1,
+		rc: 0,
 		msg: $("#lsTemplate").html()
 	};
 }
@@ -104,6 +104,12 @@ function _clear (argv) {
 }
 
 function _cd (argv) {
-	update_cwd_tree(argv[1]);
+	if(!update_cwd_tree(argv[1])) {
+		return {
+			rc: 1,
+			msg: "no such file or directory "+argv[1]
+		}
+	}
+	
 	return null;
 }
