@@ -71,11 +71,14 @@
 }
  
 ::-webkit-scrollbar-track {
-    background-color: rgba(0,0,0,0.2)
-    border-radius: 10px;
+    background-color: rgba(0,0,0,0)
 }
  
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
     background-color: rgba(0,0,0,0.2)
+}
+
+.message[data-sender='helpbot']+.message[data-sender='helpbot']:after,
+.message[data-sender='helpbot']+.message[data-sender='helpbot']:before {
+	display:none !important;
 }

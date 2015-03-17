@@ -14,6 +14,7 @@ input_area.keydown(function(evt){
 	}
 })
 
+
 function sendMsg(sender, content, rc) {
 	msg_buffer.append($(
 			"<section class='message' data-sender='"+sender+"' data-rc="+rc+">" +
@@ -24,15 +25,16 @@ function sendMsg(sender, content, rc) {
 }
 
 function sendCommand() {
-	if (input_area.val() != "") {
-		var val = input_area.val();
+	var val = input_area.val();
+	if (val != "") {
 		sendMsg("me@localhost", val);
-		setTimeout(
-			function(){callCommand(val)},
-			200);
-		input_area.val("");
 	}
+	setTimeout(
+		function(){parseInput(val)},
+		200);
+	input_area.val("");
 }
+parseInput = callCommand
 
 commandMap = {
 	ls: _ls,
@@ -45,37 +47,84 @@ commandMap = {
 	enter: _cd,
 	go: _cd,
 	go_to: _cd,
-	rm: _rm,
-	remove: _rm,
-	'delete': _rm
+	rm: yn_rm,
+	remove: yn_rm,
+	'delete': yn_rm
 }
 
 function callCommand(cmd) {
-	console.log("calling '"+cmd+"'");
-	var argv = cmd.split(" ");
-	var response = {
-		rc: 1,
-		msg: "Unknown command '"+argv[0] +
-				"'. Try asking for help?",
-		sender: "shellbot"};
+	if (cmd != ""){
+		console.log("calling '"+cmd+"'");
+		var argv = cmd.split(" ");
+		var response = {
+			rc: 1,
+			msg: "Unknown command '"+argv[0] +
+					"'. Try asking for help?",
+			sender: "shellbot"};
 
-	if (argv[0].toLowerCase() == "help") {
-		response = _help(argv);
-		response.sender = "helpbot";
-	} else if (argv[0].toLowerCase() in commandMap) {
-		response = commandMap[argv[0].toLowerCase()](argv)
-		if (response != null) {
-			response.sender = "shellbot";
+		if (argv[0].toLowerCase() == "help") {
+			response = _help(argv);
+			if (response != null) {	
+				response.sender = "helpbot";			
+			}
+		} else if (argv[0].toLowerCase() in commandMap) {
+			response = commandMap[argv[0].toLowerCase()](argv)
+			if (response != null) {
+				response.sender = "shellbot";
+			}
 		}
-	}
-	// response is an object of form
-	// { rc = (0|1),
-	//   msg = "..." }
+		// response is an object of form
+		// { rc = (0|1),
+		//   msg = "..." }
 
-	//send the actual message
+		//send the actual message
+		disp_response(response)	
+	}
+}
+
+function disp_response(response) {
 	if (response != null) {
 		$(msg_buffer.children()[msg_buffer.children().length-1]).attr('data-rc', response.rc)
 		sendMsg(response.sender, response.msg, response.rc)		
+	}		
+}
+
+function display_blocktext(sender, strings) {
+	sendMsg(sender, strings.splice(0,1));
+	if (strings.length > 0) {
+		parseInput = function() {
+			display_blocktext(sender, strings)
+		}
+	}
+	else {
+		parseInput = callCommand;
+	}
+}
+
+function get_yn(sender, prompt, callback) {
+	sendMsg(sender, prompt + " (yes/no)", 0)
+	parseInput = function (msg) {
+		var val = null;
+		switch (msg) {
+			case "yes":
+				val = true
+				break;
+			case "y":
+				val = true
+				break;
+			case "n":
+				val = false
+				break;
+			case "no":
+				val = false
+				break;
+			default:
+				get_yn(sender,prompt,callback)
+		}
+		if (val != null) {
+			parseInput = callCommand;
+			callback(val);			
+		}
 	}
 }
 
@@ -87,10 +136,21 @@ function _help (argv) {
 		};
 	}
 
-	return {
-		rc: 1,
-		msg: "I was kidding, help is not implemented :("
-	};
+	switch (argv[1]) {
+		case "interface":
+			display_blocktext("helpbot", 
+				$.map($(".helptext_body.interface"),
+					function(e){
+						return $(e).html();
+					}));
+			return null;
+		default:
+			return {
+				rc: 1,
+				msg: "I was kidding, help is not implemented :("
+			};
+	}
+
 }
 
 function _ls (argv) {
@@ -118,12 +178,45 @@ function _clear (argv) {
 	return null;
 }
 
+function yn_rm(argv) {
+	var msg = ""
+	for (var i=1; i<argv.length; i++) {
+		if (i != 1 && i == argv.length - 1){
+			msg = msg + ", and '"+ argv[i]+"'";
+		} else if (i!= 1) {
+			msg = msg + ", '"+ argv[i] + "'";
+		} else {
+			msg = msg +" '"+argv[i]+"'"
+		}
+	}
+	get_yn(	"shellbot",
+			"delete"+msg+"?",
+			function(yn) {
+				if (yn) {
+					resp = _rm(argv);
+					if (resp != null) {
+						resp.sender = "shellbot"
+					}
+					disp_response(resp);
+				}
+			});
+}
+
 function _rm(argv) {
 	argv.splice(0,1)
+	failures = []
 	for (i in argv) {
-		deletefile(argv[i])
+		if (deletefile(argv[i])) {
+			failures.push(argv[i]);
+		}
 	}
 	update_cwd_tree(".");
+	if(failures.length > 0) {
+		return {
+			rc: 1,
+			msg: "files ("+failures.join(", ")+") could not be found"
+		}
+	}
 }
 
 function _cd (argv) {

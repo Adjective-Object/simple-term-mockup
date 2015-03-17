@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>trsh</title>
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="animations.css">
     <link rel="stylesheet" href="term.css">
@@ -47,6 +47,27 @@
         If there's anything else you need to ask, I have a keyword lookup system as well; For example, if you wanted to learn about opening zip files, you could say <code>help zip</code>.
         </p>
     </template>
+
+    <template class="helptext_body interface">
+        The training shell is divided into two main areas: the working area (to the right), and the sidebar (to the left). The sidebar displays your "Current Working Directory"(cwd). This can be thought of as where you currently "are" in the filesystem. It will update when you move around the filesystem.
+        <aside>press enter to continue...</aside>
+    </template>
+
+    <template class="helptext_body interface">
+        <p>This area on the right is a little more complicated. At the top is the navbar: it shows the long version of your current path, as well as a short description of your current directory (If a description has been set, that is!). 
+        </p><p>
+        The place where these messages are appearing is called the chat buffer. This will show the back and fourth between you and me (helpbot), or between you and the bot that executes commands (shellbot)
+        </p><p>
+        Lastly, there's the command prompt, at the bottom of this area. As you type, text will appear down there. you can press enter to send the command to either me or shellbot.
+        </p>
+        <aside>press enter to continue...</aside>
+    </template>
+
+    <template class="helptext_body interface">
+
+        That's all for now! If you're just getting started, try asking me about moving around the filesystem with <code>help navigation</code>, or <code>help files</code>.
+    </template>
+
 
 
     <script src="jquery.min.js"></script>
