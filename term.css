@@ -66,11 +66,15 @@ a {
   width: 224px;
   font-family: Ubuntu Mono, monospace;
   padding: 16px;
-  background-color: #EEEEEE; }
+  background-color: #EEEEEE;
+  overflow-y: auto;
+  overflow-x: hidden; }
   #sidebar h2 {
     font-size: 1.2em;
     font-weight: normal;
     margin-bottom: 0.2em; }
+  #sidebar li {
+    overflow-x: ellipsis; }
 
 #message-buffer {
   position: absolute;

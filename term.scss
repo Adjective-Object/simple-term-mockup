@@ -114,6 +114,12 @@ a{
     font-weight: normal;
     margin-bottom: 0.2em;
   }
+
+  overflow-y: auto;
+  overflow-x: hidden;
+  li {
+    overflow-x: ellipsis;
+  }
 }
 
 #message-buffer {
