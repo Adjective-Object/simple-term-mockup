@@ -65,7 +65,8 @@ a {
   right: auto;
   width: 224px;
   font-family: Ubuntu Mono, monospace;
-  padding: 16px; }
+  padding: 16px;
+  background-color: #EEEEEE; }
   #sidebar h2 {
     font-size: 1.2em;
     font-weight: normal;

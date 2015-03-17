@@ -11,31 +11,12 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 </head>
 <body>
-    <section id="navbar" class="shaded">
-        <b>~me/</b> : Your Home Directory
+    <section id="navbar">
+        <b>~me/</b> <span>: Your Home Directory</span>
     </section>
     <section id="sidebar">
         <h2 class="currendir">~me/</h2>
         <ul class="lsout">
-            <li data-filetype='folder'>Documents</li>
-            <li data-filetype='folder'>Photos</li>
-            <li data-filetype='folder'>Notes</li>
-            <li data-filetype='folder'>Reading List</li>
-            <li data-filetype='folder'>Downloads</li>
-        </ul>
-        <ul class="lsout">
-            <li data-filetype='folder'>School</li>
-            <li data-filetype='folder'>Misc</li>
-            <li data-filetype='dotfolder'>.config</li>
-            <li data-filetype='dotfile'>.vimrc</li>
-            <li data-filetype='dotfile'>.bashrc</li>
-        </ul>
-        <ul class="lsout">
-            <li data-filetype='textfile'>notes.md</li>
-            <li data-filetype='photofile'>dolan.jpg</li>
-            <li data-filetype='zipfile'>archive.zip</li>
-            <li data-filetype='soundfile'>My Mother's Straightjacket.mp3</li>
-            <li data-filetype='wordfile'>Why I Should be President.docx</li>
         </ul>
     </section>
     <section id="message-buffer">
@@ -48,7 +29,7 @@
     <section id="modal-display">
     </section>
     <div id="ia-wrapper">
-    <textarea id="input-area" class="shaded" placeholder="me@localhost" spellcheck="false" autocorrect='off'></textarea>
+    <textarea id="input-area" placeholder="me@localhost" spellcheck="false" autocorrect='off'></textarea>
     </div>
 
     <template id="lsTemplate">
@@ -92,6 +73,7 @@
 
 
     <script src="jquery.min.js"></script>
+    <script src="dirfaker.js"></script>
     <script src="termfaker.js"></script>
 </body>
 </html>

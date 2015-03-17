@@ -40,7 +40,11 @@ commandMap = {
 	location: _ls,
 	dir: _ls,
 	l: _ls,
-	clear: _clear
+	clear: _clear,
+	cd: _cd,
+	enter: _cd,
+	go: _cd,
+	go_to: _cd
 }
 
 function callCommand(cmd) {
@@ -57,7 +61,9 @@ function callCommand(cmd) {
 		response.sender = "helpbot";
 	} else if (argv[0].toLowerCase() in commandMap) {
 		response = commandMap[argv[0].toLowerCase()](argv)
-		response.sender = "shellbot";
+		if (response != null) {
+			response.sender = "shellbot";
+		}
 	}
 	// response is an object of form
 	// { rc = (0|1),
@@ -94,5 +100,10 @@ function _ls (argv) {
 
 function _clear (argv) {
 	msg_buffer.html("");
+	return null;
+}
+
+function _cd (argv) {
+	update_cwd_tree(argv[1]);
 	return null;
 }
