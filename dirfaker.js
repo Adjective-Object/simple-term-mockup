@@ -144,4 +144,8 @@ function update_cwd_tree(newpath) {
   return 0
 }
 
+function deletefile(pth) {
+  delete cwd.children[pth];
+}
+
 update_cwd_tree("");

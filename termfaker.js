@@ -44,7 +44,10 @@ commandMap = {
 	cd: _cd,
 	enter: _cd,
 	go: _cd,
-	go_to: _cd
+	go_to: _cd,
+	rm: _rm,
+	remove: _rm,
+	'delete': _rm
 }
 
 function callCommand(cmd) {
@@ -115,6 +118,14 @@ function _clear (argv) {
 	return null;
 }
 
+function _rm(argv) {
+	argv.splice(0,1)
+	for (i in argv) {
+		deletefile(argv[i])
+	}
+	update_cwd_tree(".");
+}
+
 function _cd (argv) {
 	if(!update_cwd_tree(argv[1])) {
 		return {
@@ -122,6 +133,5 @@ function _cd (argv) {
 			msg: "no such file or directory "+argv[1]
 		}
 	}
-	
 	return null;
 }
