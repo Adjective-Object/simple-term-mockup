@@ -91,9 +91,21 @@ function _help (argv) {
 }
 
 function _ls (argv) {
+	var rows = 5
+	var content = $("#sidebar ul li");
+	splits = Math.ceil(content.length/rows);
+	var buildHTML = "";
+	for (var s=0; s<splits; s++){
+		buildHTML = buildHTML + "<ul class='lsout'>"
+		for (var i=s*rows; i< Math.min((s+1)*rows, content.length); i++) {
+			buildHTML = buildHTML + content[i].outerHTML;
+		}
+		buildHTML = buildHTML + "</ul>"
+	}
+
 	return {
 		rc: 0,
-		msg: $("#lsTemplate").html()
+		msg: buildHTML
 	};
 }
 
