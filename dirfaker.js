@@ -18,11 +18,40 @@ directory_tree = {
     },
     "Photos": {
       type: "folder",
-      children: {}
+      children: {
+        "photo.png": {
+          type: "photofile"
+        },
+        "photo2.png": {
+          type: "photofile"
+        },
+        "photo3.png": {
+          type: "photofile"
+        }
+      }
     },
     "Notes": {
       type: "folder",
-      children: {}
+      children: {
+        "todo_list": {
+          type: "textfile"
+        },
+        "murderlist": {
+          type: "textfile"
+        },
+        "csc318_notes_blob": {
+          type: "textfile"
+        },
+        "really_real_notes": {
+          type: "textfile"
+        },
+        "tfw_no_ports": {
+          type: "textfile"
+        },
+        "fake_text_file": {
+          type: "textfile"
+        }
+      }
     },
     "Reading List": {
       type: "folder",
@@ -128,7 +157,9 @@ function update_cwd(newpath) {
 
 function update_cwd_tree(newpath) {
   if (update_cwd(newpath)) {
-    $("#sidebar h2").text(path+"/");
+    var spath = path.split("/")
+    var lpath = spath[spath.length-1]
+    $("#sidebar h2").text(lpath);
     $("#navbar b").text(path+"/");
     $("#sidebar ul").empty()
     if (cwd.tag != undefined) {
