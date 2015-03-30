@@ -15,7 +15,7 @@
 .message[data-sender='me@localhost'][data-rc='0']:after {
 	content: "\f00c" !important;
 	font-family: "FontAwesome";
-	color: #8A9B0F;
+	color: #3498DB;
 	opacity:0.5 !important;
 }
 

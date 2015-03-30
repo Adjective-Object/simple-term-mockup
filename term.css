@@ -53,7 +53,7 @@ a {
   padding-left: 16px;
   padding-right: 16px;
   font-size: 16px;
-  background-color: #53777A;
+  background-color: #2980B9;
   color: #FFFFFF;
   z-index: 5; }
 
@@ -115,7 +115,7 @@ a {
         transition: opacity 0.2s;
         opacity: 0; }
     #message-buffer .message[data-sender='helpbot'] {
-      background-color: #e5e7db; }
+      background-color: #D8E7F7; }
     #message-buffer .message:not([data-sender='me@localhost']) {
       margin-left: 64px; }
 
