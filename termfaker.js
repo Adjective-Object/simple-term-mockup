@@ -6,6 +6,14 @@ var context = CONTEXT_SHELL
 var input_area = $("#input-area");
 var msg_buffer = $("#message-buffer");
 
+$.ready(function() {
+ 	input_area.focus();
+	// Force focus
+	input_area.focusout(function(){
+		input_area.focus();
+	});
+});
+
 input_area.keydown(function(evt){
 	//console.log(evt.keyCode);
 	if (evt.keyCode == kc_enter) {
@@ -54,31 +62,40 @@ commandMap = {
 
 function callCommand(cmd) {
 	if (cmd != ""){
-		console.log("calling '"+cmd+"'");
-		var argv = cmd.split(" ");
-		var response = {
-			rc: 1,
-			msg: "Unknown command '"+argv[0] +
-					"'. Try asking for help?",
-			sender: "shellbot"};
+		_cmd = cmd.toLowerCase()
+		if (_cmd.indexOf("how do i ") == 0 || _cmd.indexOf("? ") == 0) {
+			disp_response({
+				rc: 0,
+				msg: $("#help_query").html(),
+				sender: "helpbot"});
 
-		if (argv[0].toLowerCase() == "help") {
-			response = _help(argv);
-			if (response != null) {	
-				response.sender = "helpbot";			
+		} else {
+			console.log("calling '"+cmd+"'");
+			var argv = cmd.split(" ");
+			var response = {
+				rc: 1,
+				msg: "Unknown command '"+argv[0] +
+						"'. Try asking for help?",
+				sender: "shellbot"};
+
+			if (argv[0].toLowerCase() == "help") {
+				response = _help(argv);
+				if (response != null) {	
+					response.sender = "helpbot";			
+				}
+			} else if (argv[0].toLowerCase() in commandMap) {
+				response = commandMap[argv[0].toLowerCase()](argv)
+				if (response != null) {
+					response.sender = "shellbot";
+				}
 			}
-		} else if (argv[0].toLowerCase() in commandMap) {
-			response = commandMap[argv[0].toLowerCase()](argv)
-			if (response != null) {
-				response.sender = "shellbot";
-			}
+			// response is an object of form
+			// { rc = (0|1),
+			//   msg = "..." }
+
+			//send the actual message
+			disp_response(response)	
 		}
-		// response is an object of form
-		// { rc = (0|1),
-		//   msg = "..." }
-
-		//send the actual message
-		disp_response(response)	
 	}
 }
 

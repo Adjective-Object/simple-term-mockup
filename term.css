@@ -2,6 +2,7 @@
   0% {
     opacity: 0;
     -webkit-transform: translateY(20px); }
+
   100% {
     opacity: 1;
     -webkit-transform: translateY(0); } }
@@ -9,6 +10,7 @@
   0% {
     opacity: 0;
     transform: translateY(20px); }
+
   100% {
     opacity: 1;
     transform: translateY(0); } }
@@ -114,10 +116,8 @@ a {
         opacity: 0; }
     #message-buffer .message[data-sender='helpbot'] {
       background-color: #e5e7db; }
-    #message-buffer .message[data-sender='me@localhost'] {
-      margin-left: 64px; }
     #message-buffer .message:not([data-sender='me@localhost']) {
-      margin-right: 64px; }
+      margin-left: 64px; }
 
 #ia-wrapper {
   position: absolute;
@@ -194,4 +194,7 @@ p, ul {
   .lsout li[data-filetype='dotfile']:before {
     content: "\f016"; }
 
-/*# sourceMappingURL=term.css.map */
+.help_desc {
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-left: 32px; }
