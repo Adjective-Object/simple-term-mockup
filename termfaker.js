@@ -57,7 +57,13 @@ commandMap = {
 	go_to: _cd,
 	rm: yn_rm,
 	remove: yn_rm,
-	'delete': yn_rm
+	'delete': yn_rm,
+	accident: _reset,
+	reset: _reset,
+	z: _reset,
+	undo: _reset,
+	undelete: _reset,
+	whoops: _reset
 }
 
 function callCommand(cmd) {
@@ -244,4 +250,16 @@ function _cd (argv) {
 		}
 	}
 	return null;
+}
+
+function _reset (argv) {
+	reset_file_tree()
+	update_cwd_tree(".");
+	if (argv.length > 1) {
+		return {
+			rc: 0,
+			msg: "undeleting '" + argv[1] +"'"
+		}
+	}
+	return null
 }

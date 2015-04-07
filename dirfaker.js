@@ -96,6 +96,13 @@ directory_tree = {
     }
   }
 }
+directory_tree_backup = $.extend(true, {}, directory_tree);
+
+function reset_file_tree() {
+  console.log("reset_file_tree")
+  directory_tree = $.extend(true, {}, directory_tree_backup);
+  console.log(directory_tree)
+};
 
 path = '~'
 cwd = directory_tree;
