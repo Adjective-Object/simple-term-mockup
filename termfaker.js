@@ -258,7 +258,7 @@ function _reset (argv) {
 	if (argv.length > 1) {
 		return {
 			rc: 0,
-			msg: "undeleting '" + argv[1] +"'"
+			msg: "undeleting '" + argv.splice(1) +"'"
 		}
 	}
 	return null
